@@ -23,9 +23,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Using actions/checkout@v3
       - uses: actions/checkout@v3
-
+      - name: Using actions/checkout@v3
+      
+      # One liner script
+      - name: Test script
+        run: echo Test script executed
+      
       # Command to build, push artifacts and deploy mule maven project
       - name: Deploying maven project to CH2.0
-      - run: mvn clean -B deploy -DmuleDeploy -s settings.xml
+        run: mvn clean -B deploy -DmuleDeploy -s settings.xml
