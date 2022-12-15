@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1dca0fb8-e029-4260-937a-4d73ab54497d" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="3d6c8fd4-22ac-48cc-9826-f26cf0c7bcb6" basePath="/api/timezone">
+		<http:request-connection host="worldtimeapi.org"/>
+	</http:request-config>
+	
+	<flow name="pf-world-timezone" doc:id="f034f660-7364-4495-a66f-7dc9c54266d6" >
+		<http:listener doc:name="Listener" doc:id="94c59432-663f-43ce-b064-7397e34d0346" config-ref="HTTP_Listener_config" path="/timezone/{continent}/{region}"/>
+		<logger level="INFO" doc:name="LOG INFO" doc:id="d5e90c6a-9124-4ab3-aa36-a7343699cf93" message="pf-world-timezone initiated with correlationId: #[vars.vCorrelationId]"/>
+		<set-variable value="#[output application/json --- (correlationId) as String]" doc:name="Set vCorrelationId" doc:id="1c62f47c-1ebf-4a70-8036-66a7d6fb9a76" variableName="vCorrelationId" />
+		<http:request method="GET" doc:name="Request to timezone API" doc:id="3c116005-16ad-45fb-82ee-b06ff5b52bf1" config-ref="HTTP_Request_configuration" path="#[output application/json --- (&quot;/&quot; ++ attributes.uriParams.'continent' ++ &quot;/&quot; ++ attributes.uriParams.'region') as String]"/>
+		<set-payload value='#[output application/json --- (payload)]' doc:name="Set Payload" doc:id="3ee3979c-9a58-4132-b888-06f304dc7021" />
+		<logger level="INFO" doc:name="LOG INFO" doc:id="8e142449-fee8-46e8-bae4-f0fa275318ee" message="pf-world-timezone terminated with correlationId: #[vars.vCorrelationId]"/>
+	</flow>
+</mule>
