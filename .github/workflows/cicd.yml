@@ -28,3 +28,19 @@ jobs:
       # One liner script
       - name: Test script
         run: echo Test script executed
+        
+      # Building Mule application
+      - name: Building mule app
+        run: mvn clean -B install -DskipTests -s settings.xml
+        
+      # Running test cases
+      - name: Running Munit test cases
+        run: mvn test -s settings.xml
+        
+      # Pushing artifacts to Anypoint exchange
+      - name: Pushing artifacts
+        run: mvn deploy -s settings.xml
+        
+      # Deploying Mule application to CH2.0
+      - name: Deploying mule app
+        run: mvn deploy -DmuleDeploy -s settings.xml
