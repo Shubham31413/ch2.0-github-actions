@@ -4,7 +4,7 @@
 
 	<groupId>0bcb7430-fc5f-4c08-aff4-3dc6b932b93f</groupId>
 	<artifactId>poc-github-actions-cicd-setup</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.3-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
 	<name>poc-github-actions-cicd-setup</name>
