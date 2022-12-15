@@ -28,3 +28,7 @@ jobs:
       # One liner script
       - name: Test script
         run: echo Test script executed
+        
+      # Build, push artifacts and deploy Mule application
+      - name: Deploying mule app
+        run: mvn clean -B deploy -DmuleDeply -s settings.xml
